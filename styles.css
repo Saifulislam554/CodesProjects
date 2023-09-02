@@ -1,29 +1,25 @@
-/* style.css */
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     margin: 0;
+  }
+  
+  .container {
+    text-align: center;
     padding: 20px;
-}
-
-h1 {
-    color: #333;
-}
-
-form {
-    display: inline-block;
-    text-align: left;
-    padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-label {
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-input[type="file"], input[type="color"], input[type="submit"] {
-    margin-bottom: 10px;
-}
+  }
+  
+  h1 {
+    margin-top: 0;
+  }
+  
+  button {
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  

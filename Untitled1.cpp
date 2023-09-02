@@ -1,12 +1,15 @@
-#include <iostream>
+#include<iostream>
+using namespace std;
+main(){
+       int a;
+       int b;
+       cout<<"Enter a number"<<endl;
+       cin>>a;
+       cout<<"Enter a number 2"<<endl;
+       cin>>b;
+       int c=a+b;
+       cout<<"The sum of input numbers is"<<c<<endl;
+   }
+       
+       
 
-int main(int argc, char* argv[]) {
-    std::cout << "Number of command line arguments: " << argc << std::endl;
-
-    std::cout << "Command line arguments:" << std::endl;
-    for (int i = 0; i < argc; ++i) {
-        std::cout << "Argument " << i << ": " << argv[i] << std::endl;
-    }
-
-    return 0;
-}

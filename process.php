@@ -30,4 +30,7 @@ if ($_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
         echo '<a href="' . $modifiedFilePath . '" download>Download Modified File</a>';
     }
 }
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 ?>

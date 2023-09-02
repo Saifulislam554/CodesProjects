@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clock Web App</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+    <h1>Clock Web App</h1>
+    
+    <input type="radio" name="clockOption" id="dateOption" value="date">
+    <label for="dateOption">Date</label>
+
+    <input type="radio" name="clockOption" id="timeOption" value="time">
+    <label for="timeOption">Time</label>
+
+    <input type="radio" name="clockOption" id="dayOption" value="day">
+    <label for="dayOption">Day</label>
+
+    <div id="output"></div>
+
+    <script>
+        const dateOption = document.getElementById("dateOption");
+        const timeOption = document.getElementById("timeOption");
+        const dayOption = document.getElementById("dayOption");
+        const outputDiv = document.getElementById("output");
+
+        dateOption.addEventListener("change", () => {
+            outputDiv.innerHTML = new Date().toLocaleDateString();
+        });
+
+        timeOption.addEventListener("change", () => {
+            outputDiv.innerHTML = new Date().toLocaleTimeString();
+        });
+
+        dayOption.addEventListener("change", () => {
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const currentDayIndex = new Date().getDay();
+            outputDiv.innerHTML = days[currentDayIndex];
+        });
+        
+    </script>
+</body>
+</html>
