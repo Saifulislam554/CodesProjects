@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bionic Reading App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="file"], input[type="color"], input[type="submit"] {
+            margin-bottom: 10px;
+        }
+        #message {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bionic Reading App</h1>
+    <form action="process.php" method="post" enctype="multipart/form-data">
+        <label for="uploadedFile">Choose a text file:</label>
+        <input type="file" id="uploadedFile" name="uploadedFile" accept=".pdf, .doc, .docx, .txt" required>
+        <label for="colorPicker">Choose Highlight Color:</label>
+        <input type="color" id="colorPicker" name="highlightColor" value="#FFFF00">
+        <input type="submit" value="Upload and Highlight">
+    </form>
+    <div id="message"></div>
+    <script>
+        function showMessage(message, isError = false) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = message;
+            messageDiv.style.color = isError ? 'red' : 'green';
+        }
+
+        document.querySelector('form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            showMessage('Processing...', false);
+
+            const formData = new FormData(this);
+            try {
+                const response = await fetch('process.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const downloadLink = await response.text();
+                    showMessage(`File processed successfully. ${downloadLink}`);
+                } else {
+                    showMessage('Error processing file', true);
+                }
+            } catch (error) {
+                showMessage('An error occurred', true);
+            }
+        });
+    </script>
+</body>
+</html>
