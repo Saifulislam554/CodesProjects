@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Book</title>
+</head>
+<body>
+    <h1>Recipe Book</h1>
+    
+    <button onclick="showAddRecipeForm()">Add Recipe</button>
+    <input type="text" id="searchInput" placeholder="Search recipes" oninput="searchRecipes()">
+    
+    <ul id="recipeList"></ul>
+    
+    <div id="addRecipeForm" style="display: none;">
+        <h2>Add Recipe</h2>
+        <input type="text" id="recipeNameInput" placeholder="Recipe Name">
+        <textarea id="recipeTextInput" placeholder="Recipe Instructions"></textarea>
+        <button onclick="addRecipe()">Save Recipe</button>
+    </div>
+    
+    <script>
+        const recipeList = document.getElementById('recipeList');
+        const searchInput = document.getElementById('searchInput');
+        const addRecipeForm = document.getElementById('addRecipeForm');
+        const recipeNameInput = document.getElementById('recipeNameInput');
+        const recipeTextInput = document.getElementById('recipeTextInput');
+        const recipes = [];
+        
+        function showAddRecipeForm() {
+            addRecipeForm.style.display = 'block';
+        }
+        
+        function hideAddRecipeForm() {
+            addRecipeForm.style.display = 'none';
+            recipeNameInput.value = '';
+            recipeTextInput.value = '';
+        }
+        
+        function addRecipe() {
+            const name = recipeNameInput.value.trim();
+            const instructions = recipeTextInput.value.trim();
+            
+            if (name === '' || instructions === '') return;
+            
+            const recipe = { name, instructions };
+            recipes.push(recipe);
+            
+            hideAddRecipeForm();
+            updateRecipeList();
+        }
+        
+        function updateRecipeList() {
+            recipeList.innerHTML = '';
+            recipes.forEach(recipe => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${recipe.name}</strong>: ${recipe.instructions}`;
+                recipeList.appendChild(li);
+            });
+        }
+        
+        function searchRecipes() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredRecipes = recipes.filter(recipe => 
+                recipe.name.toLowerCase().includes(searchTerm) ||
+                recipe.instructions.toLowerCase().includes(searchTerm)
+            );
+            updateRecipeList(filteredRecipes);
+        }
+    </script>
+</body>
+</html>

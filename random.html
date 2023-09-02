@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Game</title>
+</head>
+<body>
+    <h1>Random Number Game</h1>
+    <label for="random1">Enter Number</label>
+    <input type="number" id="random1"> 
+    <button id="random2" onclick="rand()">Test</button>
+    <p></p>
+    <script>
+        function rand() {
+            let random = Math.random();
+            
+            let user = parseFloat(document.getElementById("random1").value);
+        
+            if (random === user) {
+                alert("You won");
+            } else {
+                alert("You lost");
+                alert(random);
+            }
+        }
+       const result= confirm("Do you want to start again?");
+        if (result=="Yes"){
+            alert("Click on the button)
+        }
+        else {
+            alert("Don't");
+        }
+    </script>
+</body>
+</html>

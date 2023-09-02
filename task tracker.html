@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+</head>
+<body>
+    <h1>Task Tracker</h1>
+    
+    <input type="text" id="taskInput" placeholder="Enter a new task">
+    <button onclick="addTask()">Add Task</button>
+    
+    <ul id="taskList"></ul>
+    
+    <script>
+        const taskList = document.getElementById('taskList');
+        const taskInput = document.getElementById('taskInput');
+        const tasks = [];
+        
+        function addTask() {
+            const taskText = taskInput.value.trim();
+            if (taskText === '') return;
+            
+            tasks.push(taskText);
+            taskInput.value = '';
+            updateTaskList();
+        }
+        
+        function editTask(index) {
+            const newTaskText = prompt('Edit task:', tasks[index]);
+            if (newTaskText !== null) {
+                tasks[index] = newTaskText;
+                updateTaskList();
+            }
+        }
+        
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            updateTaskList();
+        }
+        
+        function updateTaskList() {
+            taskList.innerHTML = '';
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.textContent = task;
+                
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.addEventListener('click', () => editTask(index));
+                
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', () => deleteTask(index));
+                
+                li.appendChild(editButton);
+                li.appendChild(deleteButton);
+                
+                taskList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
