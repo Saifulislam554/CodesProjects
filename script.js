@@ -1,38 +1,44 @@
-// Generate a random number between 1 and 100
-const randomNumber = Math.floor(Math.random() * 100) + 1;
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("form");
+    const message = document.getElementById("message");
+    // ...
 
-let attempts = 0;
+// Middleware for serving static files (e.g., HTML, CSS, and JavaScript)
+app.use(express.static(__dirname + '/public'));
 
-function checkGuess() {
-  const userGuess = parseInt(document.getElementById('userGuess').value);
-  attempts++;
+// Define a route handler for the root URL
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
 
-  if (isNaN(userGuess)) {
-    displayMessage('Please enter a valid number.');
-  } else if (userGuess < 1 || userGuess > 100) {
-    displayMessage('Please enter a number between 1 and 100.');
-  } else if (userGuess === randomNumber) {
-    displayMessage(`Congratulations! You guessed the correct number ${randomNumber} in ${attempts} attempts.`);
-    disableInput();
-  } else if (userGuess < randomNumber) {
-    displayMessage('Try a higher number.');
-  } else {
-    displayMessage('Try a lower number.');
-  }
-}
+// Define a route to handle form submissions
+app.post('/submit-form', (req, res) => {
+  // ... (rest of your form submission code)
+});
 
-function displayMessage(message) {
-  document.getElementById('message').textContent = message;
-}
+// ...
 
-function disableInput() {
-  document.getElementById('userGuess').disabled = true;
-}
-
-function resetGame() {
-  attempts = 0;
-  document.getElementById('userGuess').value = '';
-  document.getElementById('userGuess').disabled = false;
-  document.getElementById('message').textContent = '';
-  randomNumber = Math.floor(Math.random() * 100) + 1;
-}
+  
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+  
+      const formData = new FormData(form);
+      const response = await fetch("/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        form.reset();
+        message.textContent = "Form data saved successfully!";
+        message.style.color = "green";
+      } else {
+        message.textContent = "Error saving form data.";
+        message.style.color = "red";
+      }
+    });
+  });
+  

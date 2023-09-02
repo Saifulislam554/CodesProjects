@@ -1,59 +1,51 @@
+// app.js
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const ejs = require('ejs');
+
 const app = express();
+const port = process.env.PORT || 3000;
 
-// Configure mongoose and connect to your MongoDB instance
+// Connect to MongoDB using Mongoose
+mongoose.connect('mongodb://127.0.0.1:27017/mydb', { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
 
-// Configure mongoose and connect to your MongoDB instance
-mongoose.connect('mongodb:// 127.0.0.1:27017/blogs', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
 });
 
-// Import the Post model
-const Post = require('models/post');
+// Middleware for parsing JSON data from request body
+app.use(bodyParser.json());
 
-// 
-// Rest of your code...
-
-// Define a schema for your Post model
-const postSchema = new mongoose.Schema({
-  title: String,
-  content: String,
+// Define a Mongoose schema and model for your data
+const schema = new mongoose.Schema({
+  name: String,
+  email: String,
+  message: String,
 });
 
-// Create a Post model using the schema
+const Contact = mongoose.model('Contact', schema);
 
-// Create and save a sample post document to the database
-const newPost = new Post({
-  title: 'Sample Post',
-  content: 'This is a test post.',
+// Define a route to handle form submissions
+app.post('/submit-form', (req, res) => {
+  const { name, email, message } = req.body;
+
+  // Create a new Contact document
+  const contact = new Contact({ name, email, message });
+
+  // Save the document to the database
+  contact.save((err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error saving data to the database');
+    } else {
+      res.status(200).send('Data saved to the database');
+    }
+  });
 });
 
-newPost.save()
-  .then(() => console.log('Document inserted'))
-  .catch((error) => console.error(error));
-
-app.use(express.json());
-
-// Middleware
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Routes
-const homeRoute = require('./routes/home');
-const postRoute = require('./routes/post');
-const editRoute = require('./routes/edit');
-
-app.use('/', homeRoute);
-app.use('/post', postRoute);
-app.use('/edit', editRoute);
-
-// Start the server
-const port = process.env.PORT || 3004;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
